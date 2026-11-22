@@ -17,3 +17,6 @@ bin/
 
 # OS
 .DS_Store
+
+# Claude Code 개인 설정 (스킬은 공유, 개인 설정은 제외)
+.claude/settings.local.json

@@ -9,6 +9,8 @@
 
 **지금 할 일:** 상태가 `진행 중`인 문제의 브랜치로 이동해 문제지를 읽고 푼다. 순서는 아래 [진행 방식](#진행-방식)을 따른다.
 
+> Claude Code 세션을 새로 열었다면 `/lab-status`를 입력한다. 저장소 상태를 읽어서 전체 목표, 현재 진행 상황, 사람이 할 일, AI 세션이 할 일을 브리핑한다. (`.claude/skills/lab-status/SKILL.md`)
+
 | 문제 | 문제지 | 브랜치 | 상태 |
 |---|---|---|---|
 | 1. 역순 접근 데드락 재현 | [`problems/01-reproduce-deadlock.md`](problems/01-reproduce-deadlock.md) | `problem/01-reproduce-deadlock` | 진행 중 |
