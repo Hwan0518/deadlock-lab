@@ -1,0 +1,11 @@
+spring:
+  sql:
+    init:
+      mode: always          # 시작할 때 schema.sql 실행
+  jpa:
+    hibernate:
+      ddl-auto: none        # 스키마는 schema.sql로만 관리한다
+    open-in-view: false
+  datasource:
+    hikari:
+      maximum-pool-size: 20 # 동시 요청 실험용. 고부하 실험에서 조정한다
