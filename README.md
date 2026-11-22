@@ -9,7 +9,11 @@
 
 **지금 할 일:** 상태가 `진행 중`인 문제의 브랜치로 이동해 문제지를 읽고 푼다. 순서는 아래 [진행 방식](#진행-방식)을 따른다.
 
-> Claude Code 세션을 새로 열었다면 `/lab-status`를 입력한다. 저장소 상태를 읽어서 전체 목표, 현재 진행 상황, 사람이 할 일, AI 세션이 할 일을 브리핑한다. (`.claude/skills/lab-status/SKILL.md`)
+> 에이전트 세션을 새로 열었다면 브리핑부터 받는다. 저장소 상태를 읽어서 전체 목표, 현재 진행 상황, 사람이 할 일, AI 세션이 할 일을 알려 준다.
+> - Claude Code: `/lab-status`
+> - 그 밖의 에이전트(Codex 등): "AGENTS.md의 진행 상황 브리핑을 해줘"
+>
+> 에이전트 지침은 [`AGENTS.md`](AGENTS.md)에 있다. Claude Code는 `CLAUDE.md`에서 같은 파일을 불러온다.
 
 | 문제 | 문제지 | 브랜치 | 상태 |
 |---|---|---|---|
@@ -57,7 +61,7 @@ main ──●─────────────●────────
    git push -u origin problem/01-reproduce-deadlock
    ```
    다른 PC에서 이어갈 때: `git fetch && git switch problem/01-reproduce-deadlock && git pull`
-3. **결과 기록** — `answers/NN-*.md`에 측정 표, `latestDeadlock()` 원문, 질문 답을 채운다. (문제 브랜치에 틀이 들어 있다)
+3. **결과 기록** — `answers/NN-*.md`에 측정 표, `latestDeadlock()` 원문, 질문 답을 채운다. (틀은 문제지와 함께 `main`에 추가된다. 문제 1은 문제 브랜치에 있다)
 4. **제출** — `main` 대상으로 PR을 연다. 본문에 `./gradlew test` 결과를 붙인다.
    ```bash
    gh pr create --base main --title "문제 01. 역순 접근 데드락 재현"
