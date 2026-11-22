@@ -24,9 +24,16 @@ WHERE item_id = ?
 
 ## 구현 범위
 
-도메인 모델, 인터페이스, 레이어 구조는 **만들지 않아도 된다.** 이번 실험은 "한 트랜잭션 안에서 UPDATE가 어떤 순서로 실행되느냐"만 본다. 구조는 채점 대상이 아니다.
+계층 구조와 엔티티는 `main`에 **기존 코드**로 들어 있다. 실무에서 이미 있는 코드베이스에 들어가 작업하는 상황을 가정한다. 기존 코드는 채점 대상이 아니고, 계층을 새로 만들 필요도 없다.
 
-꼭 필요한 건 두 가지다.
+| 기존 코드 | 패키지 (`lab.stock.` 아래) |
+|---|---|
+| 출력 포트 `StockRepository` (메서드 없음) | `application.port.out` |
+| 어댑터 `StockRepositoryImpl` (구현 없음) | `adapter.out.persistence.repository` |
+| JPA 엔티티 `StockEntity` (`stock` 테이블 매핑) | `adapter.out.persistence.jpa.entity` |
+| Spring Data 리포지토리 `StockJpaRepository` (메서드 없음) | `adapter.out.persistence.jpa.repository` |
+
+이번 실험은 "한 트랜잭션 안에서 UPDATE가 어떤 순서로 실행되느냐"를 본다. 직접 작성하는 건 두 가지다.
 
 1. **트랜잭션 경계가 있는 서비스 메서드 하나**
 
@@ -40,11 +47,13 @@ WHERE item_id = ?
    ```
 
    - 모든 상품을 같은 `quantity`만큼 차감한다. (상품별 수량은 필요 없다)
+   - 위치는 `lab.stock.application.service`다.
+   - UPDATE는 출력 포트(`StockRepository`)를 거쳐 실행한다.
    - 테스트에서 이 빈을 주입받아 호출한다.
 
-2. **UPDATE를 실행할 데이터 접근 수단** — 둘 중 하나를 고른다.
-   - **JdbcTemplate**: 서비스에서 바로 `jdbcTemplate.update(...)`. 리포지토리·엔티티 불필요.
-   - **JPA**: `Stock` 엔티티 + Spring Data 리포지토리의 `@Modifying @Query` 조건부 UPDATE.
+2. **포트 메서드와 어댑터 구현** — 어댑터 안에서 UPDATE를 실행할 수단을 둘 중 하나 고른다.
+   - **JdbcTemplate**: 어댑터에서 `jdbcTemplate.update(...)`.
+   - **JPA**: `StockJpaRepository`에 `@Modifying @Query` 조건부 UPDATE 메서드를 추가하고 어댑터가 호출한다.
 
 ---
 
